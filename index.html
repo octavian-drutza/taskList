@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>notJira</title>
+  </head>
+  <body>
+    <header>
+      <div id="header-container">
+        <button id="add-button">+ Add</button>
+        <span class="message" id="message"></span>
+        <span class="date" id="date"></span>
+      </div>
+    </header>
+    <div class="columns-container">
+      <div class="column" id="backlog">
+        <div class="column-header">backlog header</div>
+        <div class="column-content" id="backlog-content"></div>
+      </div>
+
+      <div class="column" id="in-development">
+        <div class="column-header">indevelopment header</div>
+        <div class="column-content" id="development-content"></div>
+      </div>
+
+      <div class="column" id="in-testing">
+        <div class="column-header">testing header</div>
+        <div class="column-content" id="testing-content">testing content</div>
+      </div>
+
+      <div class="column" id="accepted">
+        <div class="column-header">accepted header</div>
+        <div class="column-content" id="accepted-content">accepted content</div>
+      </div>
+    </div>
+
+    <div class="form-container hide" id="form-container">
+      <form class="form" id="form" onkeydown="return event.keyCode != 13;">
+        <button class="close" id="close">x</button>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select name="status" id="status">
+            <option value="backlog">Backlog</option>
+            <option value="in-development">In Development</option>
+            <option value="in-testing">In Testing</option>
+            <option value="accepted">Accepted</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              name="description"
+              id="title"
+              placeholder="Enter Title"
+            />
+            <small>Error message</small>
+          </div>
+          <div class="form-group">
+            <label for="developer">Developer Name</label>
+            <input
+              type="text"
+              name="developer"
+              id="developer"
+              placeholder="Enter Name"
+            />
+            <small>Error message</small>
+          </div>
+          <div class="form-group">
+            <label for="tester">Tester Name</label>
+            <input
+              type="text"
+              name="tester"
+              id="tester"
+              placeholder="Enter Name"
+            />
+            <small>Error message</small>
+          </div>
+
+          <label for="description">Description</label>
+          <textarea name="description" id="description" cols="30" rows="10">
+Add description here</textarea
+          >
+          <small>Error message</small>
+        </div>
+        <button class="form-button-create" id="form-button-create">
+          Create
+        </button>
+        <button class="form-button-save hide" id="form-button-save">
+          Save Changes
+        </button>
+      </form>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
