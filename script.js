@@ -44,14 +44,12 @@ function updateStorage() {
 
 /* get all available ID's in the ticketList */
 function getIDs() {
-  let ids;
   if (ticketList.length > 0) {
-    ids = ticketList.reduce((acc, obj) => {
-      acc.push(obj.id);
-      return acc;
+    return ticketList.reduce((acc, obj) => {
+      return acc.concat(obj.id);
     }, []);
   }
-  return ids;
+  return [];
 }
 
 /* generate random ID  */
@@ -75,6 +73,7 @@ function getValues(id) {
   values.tester = inputTestName.value;
   values.status = inputStatus.value;
   values.description = inputDescription.value;
+  values.date = new Date().toString().slice(0, 25);
   return values;
 }
 
@@ -115,7 +114,8 @@ function buildTicket(values) {
   ticket.innerHTML = `
       <h4>${values.title}</h4>
       <button id="ticket-edit"><i class="far fa-edit"></i></button>
-      <button id="ticket-delete"><i class="far fa-trash-alt"></i></button> `;
+      <button id="ticket-delete"><i class="far fa-trash-alt"></i></button> 
+      <div>Last Change: ${values.date}</div>`;
   setDraggable(ticket);
   return ticket;
 }
@@ -233,12 +233,13 @@ function transferWithDrag(target) {
   let values = identifyTicket(dragged.id);
   let beforeStatus = values.status;
   values.status = updateStatus(target);
+  if (beforeStatus != values.status) {
+    showLastAction("status", values.title);
+    values.date = new Date().toString().slice(0, 25);
+  }
   removeTicket(dragged.id);
   pushTicket(buildTicket(values), checkStatus(values.status), values);
   updateStorage();
-  if (beforeStatus != values.status) {
-    showLastAction("status", values.title);
-  }
 }
 
 /* turn on edit modal */
