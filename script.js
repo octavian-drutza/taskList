@@ -25,7 +25,7 @@ let dragged;
 
 /* retrieve local storage saved tickets and log */
 (function populate() {
-  ticketList = JSON.parse(localStorage.getItem("tickets"));
+  ticketList = JSON.parse(localStorage.getItem("tickets")) || [];
   ticketList.forEach((values) => {
     addTicket(buildTicket(values), checkStatus(values.status));
   });
