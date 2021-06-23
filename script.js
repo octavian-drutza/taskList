@@ -17,13 +17,13 @@ const inputDescription = document.getElementById("description");
 const message = document.getElementById("message");
 const messageDate = document.getElementById("date");
 const clsBtn = document.getElementById("close");
+const columns = document.querySelectorAll(".column-content");
 
-let columns = document.querySelectorAll(".column-content");
 let ticketList = [];
 let editId;
 let dragged;
 
-/* retrieve local storage saved tickets */
+/* retrieve local storage saved tickets and log */
 (function populate() {
   ticketList = JSON.parse(localStorage.getItem("tickets"));
   ticketList.forEach((values) => {
@@ -39,10 +39,7 @@ let dragged;
 
 /* update local storage */
 function updateStorage() {
-  /*   localStorage.removeItem("tickets"); */
   localStorage.setItem("tickets", JSON.stringify(ticketList));
-  /*   console.log(getIDs());
-  console.log(ticketList); */
 }
 
 /* get all available ID's in the ticketList */
@@ -117,8 +114,8 @@ function buildTicket(values) {
   ticket.setAttribute("draggable", "true");
   ticket.innerHTML = `
       <h4>${values.title}</h4>
-      <button id="ticket-edit">edit</button>
-      <button id="ticket-delete">delete</button> `;
+      <button id="ticket-edit"><i class="far fa-edit"></i></button>
+      <button id="ticket-delete"><i class="far fa-trash-alt"></i></button> `;
   setDraggable(ticket);
   return ticket;
 }
@@ -144,7 +141,6 @@ function removeTicket(id) {
   let toRemove = document.getElementById(id);
   toRemove.remove();
   removeListTicket(toRemove.id);
-  /*   console.log(ticketList); */
 }
 
 /* removes ticket from temp list */
@@ -186,7 +182,7 @@ function showLastAction(action, title) {
       message.innerText = `Ticket "${title}" has been edited:`;
       break;
     case "status":
-      message.innerText = "Ticket has changed status:";
+      message.innerText = `Ticket "${title}" has changed status:`;
       break;
     case "deleted":
       message.innerText = `Ticket "${title}" has been deleted:`;
@@ -201,18 +197,19 @@ function showLastAction(action, title) {
   localStorage.setItem("date", date);
 }
 
-/* make the ticket draggable, used when ticket is created */
+/* make the ticket draggable, ran when ticket is created */
 function setDraggable(ticket) {
   ticket.addEventListener("dragstart", (event) => {
     ticket.classList.add("dragstart");
     dragged = event.target;
-    console.log(event.target);
+    /*     console.log(event.target); */
   });
   ticket.addEventListener("dragend", (event) => {
     ticket.classList.remove("dragstart");
   });
 }
 
+/* updates status after drop of dragged element */
 function updateStatus(targetColumnId) {
   switch (targetColumnId) {
     case "development-content":
@@ -231,13 +228,41 @@ function updateStatus(targetColumnId) {
   return status;
 }
 
+/* transfer dragged ticket to target column */
+function transferWithDrag(target) {
+  let values = identifyTicket(dragged.id);
+  let beforeStatus = values.status;
+  values.status = updateStatus(target);
+  removeTicket(dragged.id);
+  pushTicket(buildTicket(values), checkStatus(values.status), values);
+  updateStorage();
+  if (beforeStatus != values.status) {
+    showLastAction("status", values.title);
+  }
+}
+
+/* turn on edit modal */
+function startEdit(event, target) {
+  event.preventDefault();
+  loadTicket(identifyTicket(target));
+}
+
+/* remove ticket */
+function remove(target) {
+  let id = target.id;
+  showLastAction("deleted", identifyTicket(id).title);
+  removeTicket(id);
+}
+
 /* event listeners */
 
+/* close modal */
 clsBtn.addEventListener("click", (event) => {
   event.preventDefault();
   modal.classList.add("hide");
 });
 
+/* add modal */
 addBtn.addEventListener("click", () => {
   form.reset();
   modal.classList.remove("hide");
@@ -245,6 +270,7 @@ addBtn.addEventListener("click", () => {
   createBtn.classList.remove("hide");
 });
 
+/* create button inside modal */
 createBtn.addEventListener("click", (event) => {
   event.preventDefault();
   let values = getValues(generateID());
@@ -254,6 +280,7 @@ createBtn.addEventListener("click", (event) => {
   showLastAction("added", values.title);
 });
 
+/* save button inside modal */
 saveBtn.addEventListener("click", (event) => {
   event.preventDefault();
   let values = getValues(editId);
@@ -262,18 +289,19 @@ saveBtn.addEventListener("click", (event) => {
   modal.classList.add("hide");
   updateStorage();
   showLastAction("edited", values.title);
-  console.log(ticketList);
 });
 
+/* delete ticket, edit ticket buttons inside the ticket, on ticket drop events  */
 columns.forEach((column) => {
   column.addEventListener("click", (event) => {
     if (event.target.id === "ticket-delete") {
-      let id = event.target.parentElement.id;
-      showLastAction("deleted", identifyTicket(id).title);
-      removeTicket(id);
+      remove(event.target.parentElement);
     } else if (event.target.id === "ticket-edit") {
-      event.preventDefault();
-      loadTicket(identifyTicket(event.target.parentElement.id));
+      startEdit(event, event.target.parentElement.id);
+    } else if (event.target.className === "far fa-trash-alt") {
+      remove(event.target.parentElement.parentElement);
+    } else if (event.target.className === "far fa-edit") {
+      startEdit(event, event.target.parentElement.parentElement.id);
     }
     updateStorage();
   });
@@ -283,28 +311,12 @@ columns.forEach((column) => {
   column.addEventListener("drop", (event) => {
     event.preventDefault();
     if (event.target.className === "column-content") {
-      console.log(dragged);
-      let values = getValues(dragged.id);
-      console.log(values);
-      values.status = updateStatus(event.target.id);
-      let status = event.target.id;
-      console.log(status);
-      removeTicket(dragged.id);
-      /*     console.log(checkStatus(status)); */
-      pushTicket(buildTicket(values), checkStatus(status), values);
-
-      updateStorage();
-    } /* else if (event.target.className === "column-ticket") {
-      let values = getValues(dragged.id);
-      values.status = updateStatus(event.target.parentElement.parentElement.id);
-      console.log(values.status);
-      let status = event.target.parentElement.parentElement.id;
-      console.log(status);
-      removeTicket(dragged.id);
-      console.log(checkStatus(status));
-      pushTicket(buildTicket(values), checkStatus(status), values);
-
-      updateStorage();
-    } */
+      transferWithDrag(event.target.id);
+    } else if (
+      event.target.className === "column-ticket" ||
+      event.target.parentElement.className === "column-ticket"
+    ) {
+      transferWithDrag(event.target.parentElement.id);
+    }
   });
 });

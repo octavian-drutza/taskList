@@ -152,7 +152,7 @@ select:focus {
   opacity: 50%;
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 800px) {
   .columns-container {
     flex-direction: column;
     margin-left: 5vw;

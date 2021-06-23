@@ -5,6 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <title>notJira</title>
   </head>
   <body>
@@ -17,23 +24,31 @@
     </header>
     <div class="columns-container">
       <div class="column" id="backlog">
-        <div class="column-header">backlog header</div>
-        <div class="column-content" id="backlog-content"></div>
+        <h4 class="column-header">BACKLOG</h4>
+        <div class="column-content" id="backlog-content">
+          Add or drop ticket
+        </div>
       </div>
 
       <div class="column" id="in-development">
-        <div class="column-header">indevelopment header</div>
-        <div class="column-content" id="development-content"></div>
+        <h4 class="column-header">IN DEVELOPMENT</h4>
+        <div class="column-content" id="development-content">
+          Add or drop ticket
+        </div>
       </div>
 
       <div class="column" id="in-testing">
-        <div class="column-header">testing header</div>
-        <div class="column-content" id="testing-content">testing content</div>
+        <h4 class="column-header">IN TESTING</h4>
+        <div class="column-content" id="testing-content">
+          Add or drop ticket
+        </div>
       </div>
 
       <div class="column" id="accepted">
-        <div class="column-header">accepted header</div>
-        <div class="column-content" id="accepted-content">accepted content</div>
+        <h4 class="column-header">ACCEPTED</h4>
+        <div class="column-content" id="accepted-content">
+          Add or drop ticket
+        </div>
       </div>
     </div>
 
@@ -56,7 +71,7 @@
               type="text"
               name="description"
               id="title"
-              placeholder="Enter Title"
+              value="Default Title"
             />
             <small>Error message</small>
           </div>
