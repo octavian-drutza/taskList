@@ -46,7 +46,14 @@ function updateStorage() {
 /* get current date */
 function getCurrDate() {
   let date = new Date();
-  return `${date.getDate()} - ${date.getMonth()} - ${date.getFullYear()} ; ${date.getHours()} : ${date.getMinutes()} : ${date.getSeconds()}`;
+  function checkZero(value) {
+    return value.toString().length < 2 ? "0" + value.toString() : value;
+  }
+  return `${date.getDate()} - ${
+    date.getMonth() + 1
+  } - ${date.getFullYear()} ; ${date.getHours()} : ${checkZero(
+    date.getMinutes()
+  )} : ${checkZero(date.getSeconds())}`;
 }
 
 /* get all available ID's in the ticketList */
@@ -122,7 +129,7 @@ function buildTicket(values) {
       <h4>${values.title}</h4>
       <button id="ticket-edit"><i class="far fa-edit"></i></button>
       <button id="ticket-delete"><i class="far fa-trash-alt"></i></button> 
-      <div>Last Change: ${values.date}</div>`;
+      <div class="ticket-date">Last Change: ${values.date}</div>`;
   setDraggable(ticket);
   return ticket;
 }
