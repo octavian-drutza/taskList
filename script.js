@@ -46,14 +46,11 @@ function updateStorage() {
 /* get current date */
 function getCurrDate() {
   let date = new Date();
-  function checkZero(value) {
-    return value.toString().length < 2 ? "0" + value.toString() : value;
-  }
-  return `${date.getDate()} - ${
-    date.getMonth() + 1
-  } - ${date.getFullYear()} ; ${date.getHours()} : ${checkZero(
-    date.getMinutes()
-  )} : ${checkZero(date.getSeconds())}`;
+  return date.toLocaleString({
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 /* get all available ID's in the ticketList */
