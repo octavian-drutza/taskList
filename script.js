@@ -46,11 +46,16 @@ function updateStorage() {
 /* get current date */
 function getCurrDate() {
   let date = new Date();
-  return date.toLocaleString({
+  let settings = {
+    day: "numeric",
+    month: "2-digit",
+    year: "numeric",
     hour12: false,
     hour: "2-digit",
     minute: "2-digit",
-  });
+    second: "2-digit",
+  };
+  return date.toLocaleString([], settings);
 }
 
 /* get all available ID's in the ticketList */
