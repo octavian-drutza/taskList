@@ -51,65 +51,69 @@
         </div>
       </div>
     </div>
+    <div class="modal hide" id="modal">
+      <div class="modal-backdrop">
+        <div class="form-container" id="form-container">
+          <form class="form" id="form" onkeydown="return event.keyCode != 13;">
+            <button class="close" id="close">x</button>
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select name="status" id="status">
+                <option value="backlog">Backlog</option>
+                <option value="in-development">In Development</option>
+                <option value="in-testing">In Testing</option>
+                <option value="accepted">Accepted</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="form-group">
+                <label for="title">Title</label>
+                <input
+                  type="text"
+                  name="description"
+                  id="title"
+                  value="Default Title"
+                />
+                <small>Error message</small>
+              </div>
+              <div class="form-group">
+                <label for="developer">Developer Name</label>
+                <input
+                  type="text"
+                  name="developer"
+                  id="developer"
+                  placeholder="Enter Name"
+                />
+                <small>Error message</small>
+              </div>
+              <div class="form-group">
+                <label for="tester">Tester Name</label>
+                <input
+                  type="text"
+                  name="tester"
+                  id="tester"
+                  placeholder="Enter Name"
+                />
+                <small>Error message</small>
+              </div>
 
-    <div class="form-container hide" id="form-container">
-      <form class="form" id="form" onkeydown="return event.keyCode != 13;">
-        <button class="close" id="close">x</button>
-        <div class="form-group">
-          <label for="status">Status</label>
-          <select name="status" id="status">
-            <option value="backlog">Backlog</option>
-            <option value="in-development">In Development</option>
-            <option value="in-testing">In Testing</option>
-            <option value="accepted">Accepted</option>
-          </select>
+              <label for="description">Description</label>
+              <textarea name="description" id="description" cols="30" rows="10">
+  Add description here</textarea
+              >
+              <small>Error message</small>
+            </div>
+            <button class="form-button-create" id="form-button-create">
+              Create
+            </button>
+            <button class="form-button-save hide" id="form-button-save">
+              Save Changes
+            </button>
+          </form>
         </div>
-        <div class="form-group">
-          <div class="form-group">
-            <label for="title">Title</label>
-            <input
-              type="text"
-              name="description"
-              id="title"
-              value="Default Title"
-            />
-            <small>Error message</small>
-          </div>
-          <div class="form-group">
-            <label for="developer">Developer Name</label>
-            <input
-              type="text"
-              name="developer"
-              id="developer"
-              placeholder="Enter Name"
-            />
-            <small>Error message</small>
-          </div>
-          <div class="form-group">
-            <label for="tester">Tester Name</label>
-            <input
-              type="text"
-              name="tester"
-              id="tester"
-              placeholder="Enter Name"
-            />
-            <small>Error message</small>
-          </div>
-
-          <label for="description">Description</label>
-          <textarea name="description" id="description" cols="30" rows="10">
-Add description here</textarea
-          >
-          <small>Error message</small>
-        </div>
-        <button class="form-button-create" id="form-button-create">
-          Create
-        </button>
-        <button class="form-button-save hide" id="form-button-save">
-          Save Changes
-        </button>
-      </form>
+      </div>
     </div>
+
     <script src="script.js"></script>
   </body>
 </html>

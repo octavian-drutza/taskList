@@ -3,7 +3,7 @@ const createBtn = document.getElementById("form-button-create");
 const editBtn = document.getElementById("ticket-edit");
 const delBtn = document.getElementById("ticket-delete");
 const saveBtn = document.getElementById("form-button-save");
-const modal = document.getElementById("form-container");
+/* const formContainer = document.getElementById("form-container"); */
 const form = document.getElementById("form");
 const backLogColumn = document.getElementById("backlog-content");
 const inDevelopmentColumn = document.getElementById("development-content");
@@ -18,6 +18,7 @@ const message = document.getElementById("message");
 const messageDate = document.getElementById("date");
 const clsBtn = document.getElementById("close");
 const columns = document.querySelectorAll(".column-content");
+const modal = document.getElementById("modal");
 
 let ticketList = [];
 let editId;
@@ -40,6 +41,12 @@ let dragged;
 /* update local storage */
 function updateStorage() {
   localStorage.setItem("tickets", JSON.stringify(ticketList));
+}
+
+/* get current date */
+function getCurrDate() {
+  let date = new Date();
+  return `${date.getDate()} - ${date.getMonth()} - ${date.getFullYear()} ; ${date.getHours()} : ${date.getMinutes()} : ${date.getSeconds()}`;
 }
 
 /* get all available ID's in the ticketList */
@@ -73,7 +80,7 @@ function getValues(id) {
   values.tester = inputTestName.value;
   values.status = inputStatus.value;
   values.description = inputDescription.value;
-  values.date = new Date().toString().slice(0, 25);
+  values.date = getCurrDate();
   return values;
 }
 
@@ -190,7 +197,7 @@ function showLastAction(action, title) {
     default:
       message.innerText = "";
   }
-  let date = new Date().toString().slice(0, 25);
+  let date = getCurrDate();
   let lastMessage = message.innerText;
   localStorage.setItem("lastMessage", lastMessage);
   messageDate.innerText = date;
@@ -235,7 +242,7 @@ function transferWithDrag(target) {
   values.status = updateStatus(target);
   if (beforeStatus != values.status) {
     showLastAction("status", values.title);
-    values.date = new Date().toString().slice(0, 25);
+    values.date = getCurrDate();
   }
   removeTicket(dragged.id);
   pushTicket(buildTicket(values), checkStatus(values.status), values);
